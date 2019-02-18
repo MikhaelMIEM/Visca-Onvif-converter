@@ -4,6 +4,7 @@ from onvif import ONVIFCamera
 from time import sleep
 from vector3 import vector3
 
+
 class ONVIFCameraControl:
     def __init__(self, addr, port, login, pwd, wsdl_path):
         print("Initializing camera", addr)
@@ -48,7 +49,7 @@ class ONVIFCameraControl:
         request.ConfigurationToken = self.profile.PTZConfiguration._token
         return self.ptz.GetConfigurationOptions(request)
 
-    def continuousMove(self, ptz, timeout=1):
+    def move_continuous(self, ptz, timeout=1):
         print('Continuous move',ptz,'for',str(timeout)+'s')
         req = self.request['ContinuousMove']
         vel = req.Velocity
@@ -58,7 +59,7 @@ class ONVIFCameraControl:
         sleep(timeout)
         self.stop()
 
-    def absoluteMove(self, ptz, ptzs=vector3(1.0, 1.0, 1.0)):
+    def move_absolute(self, ptz, ptzs=vector3(1.0, 1.0, 1.0)):
         print('Absolute move',ptz)
         req = self.request['AbsoluteMove']
         pos = req.Position
@@ -69,7 +70,7 @@ class ONVIFCameraControl:
         vel.Zoom._x = ptzs.z
         self.ptz.AbsoluteMove(req)
 
-    def relativeMove(self, ptz, ptzs=vector3(1.0, 1.0, 1.0)):
+    def move_relative(self, ptz, ptzs=vector3(1.0, 1.0, 1.0)):
         print('Relative move',ptz)
         req = self.request['RelativeMove']
         pos = req.Translation
@@ -80,7 +81,7 @@ class ONVIFCameraControl:
         vel.Zoom._x = ptzs.z
         self.ptz.RelativeMove(req)
 
-    def goHome(self):
+    def go_home(self):
         print('Moving home')
         self.ptz.GotoHomePosition(self.request['GotoHomePosition'])
 

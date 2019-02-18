@@ -1,9 +1,10 @@
+from __future__ import print_function
 from ONVIFCameraControl import ONVIFCameraControl as OCC
 from vector3 import vector3
+from os import path
 
-cam = OCC('192.168.15.43', 80, 'admin', 'Supervisor', '/home/akarin/PycharmProjects/vivif/wsdl')
-#cam.absoluteMove(-1, -1, 0)
-cam.goHome()
-cam.continuousMove(vector3(-0.1, -0.1, -0.1), 3)
-cam.continuousMove(vector3(0, +0.2, +0.2), 3)
-cam.goHome()
+cam = OCC('192.168.15.43', 80, 'admin', 'Supervisor',
+          path.join(path.dirname(__file__), 'wsdl'))
+
+cam.move_continuous(vector3(0, 1, 1))
+cam.go_home()
