@@ -28,21 +28,23 @@ class ONVIFCameraControl:
         self.config = self.__get_ptz_conf_opts()
         for _, r in self.request.items():
             r.ProfileToken = self.profile.token
+        print('Initialization complete')
 
     def __get_ptz_conf_opts(self):
         request = self.ptz.create_type('GetConfigurationOptions')
         request.ConfigurationToken = self.profile.PTZConfiguration.token
         return self.ptz.GetConfigurationOptions(request)
 
-    def move_continuous(self, ptz, timeout=1):
+    def move_continuous(self, ptz, timeout=None):
         print('Continuous move',ptz,'for',str(timeout)+'s')
         req = self.request['ContinuousMove']
         vel = req.Velocity
         vel.PanTilt.x, vel.PanTilt.y = ptz.x, ptz.y
         vel.Zoom.x = ptz.z
         self.ptz.ContinuousMove(req)
-        sleep(timeout)
-        self.stop()
+        if timeout is not None:
+            sleep(timeout)
+            self.stop()
 
     def move_absolute(self, ptz, ptzs=vector3(1.0, 1.0, 1.0)):
         print('Absolute move',ptz)
