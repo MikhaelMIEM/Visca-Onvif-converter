@@ -7,7 +7,7 @@ def zeep_pythonvalue(self, xmlvalue):
 
 zeep.xsd.simple.AnySimpleType.pythonvalue = zeep_pythonvalue
 
-from time import sleep
+from datetime import timedelta
 from vector3 import vector3
 
 
@@ -23,9 +23,11 @@ class ONVIFCameraControl:
                          'AbsoluteMove', 'RelativeMove']}
         for _, r in self.request.items():
             r.ProfileToken = self.profile.token
-        self.request['ContinuousMove'].Velocity = self.ptz.GetStatus({'ProfileToken': self.profile.token}).Position
         self.stop()
-        self.config = self.__get_ptz_conf_opts()
+        self.config = self.__get_configurations()
+        self.status = self.ptz.GetStatus({'ProfileToken': self.profile.token})
+        self.node = self.__get_node(self.config.NodeToken)
+        self.request['ContinuousMove'].Velocity = self.status.Position
         for _, r in self.request.items():
             r.ProfileToken = self.profile.token
         print('Initialization complete')
@@ -35,16 +37,28 @@ class ONVIFCameraControl:
         request.ConfigurationToken = self.profile.PTZConfiguration.token
         return self.ptz.GetConfigurationOptions(request)
 
+    def __get_configurations(self):
+        request = self.ptz.create_type('GetConfigurations')
+        return self.ptz.GetConfigurations(request)[0]
+
+    def __get_node(self, node_token):
+        request = self.ptz.create_type('GetNode')
+        request.NodeToken = node_token
+        return self.ptz.GetNode(request)
+
     def move_continuous(self, ptz, timeout=None):
-        print('Continuous move',ptz,'for',str(timeout)+'s')
+        print('Continuous move',ptz,'for',str(timeout))
         req = self.request['ContinuousMove']
         vel = req.Velocity
-        vel.PanTilt.x, vel.PanTilt.y = ptz.x, ptz.y
-        vel.Zoom.x = ptz.z
-        self.ptz.ContinuousMove(req)
+        vel.PanTilt.x, vel.PanTilt.y, vel.Zoom.x = ptz.x, ptz.y, ptz.z
+        # force default space
+        vel.PanTilt.space, vel.Zoom.space = None, None
         if timeout is not None:
-            sleep(timeout)
-            self.stop()
+            if type(timeout) is timedelta:
+                req.Timeout = timeout
+            else:
+                raise TypeError('timeout parameter is of datetime.timedelta type')
+        self.ptz.ContinuousMove(req)
 
     def move_absolute(self, ptz, ptzs=vector3(1.0, 1.0, 1.0)):
         print('Absolute move',ptz)
