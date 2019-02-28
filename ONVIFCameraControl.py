@@ -27,6 +27,7 @@ class ONVIFCameraControl:
         self.config = self.__get_configurations()
         self.status = self.ptz.GetStatus({'ProfileToken': self.profile.token})
         self.node = self.__get_node(self.config.NodeToken)
+
         self.request['ContinuousMove'].Velocity = self.status.Position
         for _, r in self.request.items():
             r.ProfileToken = self.profile.token
@@ -47,7 +48,7 @@ class ONVIFCameraControl:
         return self.ptz.GetNode(request)
 
     def move_continuous(self, ptz, timeout=None):
-        print('Continuous move',ptz,'for',str(timeout))
+        print('Continuous move',ptz, '' if timeout is None else 'for '+str(timeout))
         req = self.request['ContinuousMove']
         vel = req.Velocity
         vel.PanTilt.x, vel.PanTilt.y, vel.Zoom.x = ptz.x, ptz.y, ptz.z
