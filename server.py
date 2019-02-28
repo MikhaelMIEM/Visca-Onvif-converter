@@ -3,6 +3,7 @@ import binascii as ba
 from ONVIFCameraControl import ONVIFCameraControl as OCC
 from vector3 import vector3
 from os import path
+import logging
 
 
 class Server:
@@ -84,7 +85,11 @@ class Server:
 			if command[:len(p)]==p:
 				self.PREFIX[p](command[len(p):-1])
 				
-	async def run(self):
+	def run(self):
 		while True:
-			data, self.last_addr = self.recv()
-			self.command_processing(data)
+			try:
+				data, self.last_addr = self.recv()
+				self.command_processing(data)
+			except KeyboardInterrupt:
+				logging.debug('Terminating loop')
+				return

@@ -9,11 +9,12 @@ zeep.xsd.simple.AnySimpleType.pythonvalue = zeep_pythonvalue
 
 from datetime import timedelta
 from vector3 import vector3
+import logging
 
 
 class ONVIFCameraControl:
     def __init__(self, addr, port, login, pwd, wsdl_path):
-        print("Initializing camera", addr)
+        logging.info('Initializing camera {}'.format(addr))
         self.cam = ONVIFCamera(addr, port, login, pwd, wsdl_path)
         self.media = self.cam.create_media_service()
         self.ptz = self.cam.create_ptz_service()
@@ -31,7 +32,7 @@ class ONVIFCameraControl:
         self.request['ContinuousMove'].Velocity = self.status.Position
         for _, r in self.request.items():
             r.ProfileToken = self.profile.token
-        print('Initialization complete')
+        logging.info('Initialization complete')
 
     def __get_ptz_conf_opts(self):
         request = self.ptz.create_type('GetConfigurationOptions')
@@ -49,6 +50,7 @@ class ONVIFCameraControl:
 
     def move_continuous(self, ptz, timeout=None):
         print('Continuous move',ptz, '' if timeout is None else 'for '+str(timeout))
+        logging.debug('Continuous move {}{}'.format(ptz, '' if timeout is None else ' for '+str(timeout)))
         req = self.request['ContinuousMove']
         vel = req.Velocity
         vel.PanTilt.x, vel.PanTilt.y, vel.Zoom.x = ptz.x, ptz.y, ptz.z
@@ -62,7 +64,7 @@ class ONVIFCameraControl:
         self.ptz.ContinuousMove(req)
 
     def move_absolute(self, ptz, ptzs=vector3(1.0, 1.0, 1.0)):
-        print('Absolute move',ptz)
+        logging.debug('Absolute move {}'.format(ptz))
         req = self.request['AbsoluteMove']
         pos = req.Position
         pos.PanTilt.x, pos.PanTilt.y = ptz.x, ptz.y
@@ -73,7 +75,7 @@ class ONVIFCameraControl:
         self.ptz.AbsoluteMove(req)
 
     def move_relative(self, ptz, ptzs=vector3(1.0, 1.0, 1.0)):
-        print('Relative move',ptz)
+        logging.debug('Relative move {}'.format(ptz))
         req = self.request['RelativeMove']
         pos = req.Translation
         pos.PanTilt.x, pos.PanTilt.y = ptz.x, ptz.y
@@ -84,8 +86,9 @@ class ONVIFCameraControl:
         self.ptz.RelativeMove(req)
 
     def go_home(self):
-        print('Moving home')
+        logging.debug('Moving home')
         self.ptz.GotoHomePosition(self.request['GotoHomePosition'])
 
     def stop(self):
+        logging.debug('Stopping')
         self.ptz.Stop({'ProfileToken': self.request['ContinuousMove'].ProfileToken})

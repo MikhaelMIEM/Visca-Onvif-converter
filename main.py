@@ -4,7 +4,13 @@ from datetime import timedelta
 from os import path
 from server import Server
 import json
-import asyncio
+import threading
+import logging
+
+logging.basicConfig(
+    level=logging.DEBUG,
+    format='(%(threadName)-20s) %(message)s',
+)
 
 from time import sleep
 
@@ -13,10 +19,14 @@ with open('cameras.conf', 'r') as f:
 
 servers = [Server(c['IP'], c['PORT'], c['VISCA_PORT'], c['LOGIN'], c['PASSWORD']) for c in config['CAMERAS']]
 
-tasks = [s.run() for s in servers]
-loop = asyncio.get_event_loop()
-loop.run_until_complete(asyncio.wait(tasks))
-loop.close()
+threads = []
+for s in servers:
+    t = threading.Thread(target=s.run)
+    threads.append(t)
+    t.start()
+
+for t in threads:
+    t.join()
 
 #cam = OCC('192.168.15.43', 80, 'admin', 'Supervisor',
 #          path.join(path.dirname(__file__), 'wsdl'))
