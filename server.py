@@ -20,12 +20,13 @@ class Server:
 		# TODO: IPv6
 		self.SERVER_IP = '0.0.0.0'
 		self.SERVER_PORT = visca_port
+		logging.debug('Binding server to {}:{}'.format(self.SERVER_IP, self.SERVER_PORT))
 		self.SERVER_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		self.SERVER_SOCKET.bind((self.SERVER_IP, self.SERVER_PORT))
 
 		self.cam = OCC(addr, port, login, password,
 					   path.join(path.dirname(__file__), 'wsdl'))
-			
+
 		self.last_addr = None
 
 	def recv(self, bufsize=16):
@@ -89,6 +90,7 @@ class Server:
 		while True:
 			try:
 				data, self.last_addr = self.recv()
+				logging.debug('Received {}\n\tfrom {}'.format(data, self.last_addr))
 				self.command_processing(data)
 			except KeyboardInterrupt:
 				logging.debug('Terminating loop')
