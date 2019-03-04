@@ -14,7 +14,7 @@ with open('cameras.conf', 'r') as f:
 
 threads = []
 for c in config['CAMERAS']:
-    t = threading.Thread(target=Server(c['IP'], c['PORT'], c['VISCA_PORT'], c['LOGIN'], c['PASSWORD']).run)
+    t = threading.Thread(target=Server(('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD']).run)
     threads.append(t)
     t.start()
 

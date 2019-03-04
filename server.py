@@ -35,25 +35,23 @@ class Server:
         self.last_addr = None
         self.preset_counter = 0
 
-    def recv(self, bufsize=16):
+    def recieve(self, bufsize=16):
         data, addr = self.server_socket.recvfrom(bufsize)
-        text = ba.b2a_hex(data).decode().upper()
-        print('recv "{}" from {}'.format(' '.join([text[i:i + 2] for i in range(0, len(text), 2)]), addr))
+        logger.debug(f'Received {data.hex()} from {addr}')
         return data, addr
 
     def send(self, sock, data, addr):
+        logger.debug(f'Sending {data.hex()}')
         sock.sendto(data, addr)
-        text = ba.b2a_hex(data).decode().upper()
-        print('send "{}" to {}'.format(' '.join([text[i:i + 2] for i in range(0, len(text), 2)]), addr))
 
     def handle_inquiry(self, command):
+        logger.debug(f'Handling inquiry {command.hex()}')
         if command == b'\x06\x12':
             response = b''.join([b'\x90\x50\x00\x00\x00\x00\x00\x00',
                                  bytes([self.preset_counter // 16, self.preset_counter % 16]),  # probaply does not work
                                  b'\xFF'])  # pan tilt position
             if self.preset_counter:
                 self.cam.set_preset(self.preset_counter)
-                print('Preset seted')  # remove zis
             if self.preset_counter > self.cam.node['MaximumNumberOfPresets']:
                 self.preset_counter = 1
             else:
@@ -68,6 +66,7 @@ class Server:
         self.send(self.server_socket, response, self.last_addr)
 
     def handle_pan_tilt_drive(self, arg):
+        logger.debug(f'Handling pan tilt drive {arg}')
         if arg[-1] == 3 and arg[-2] == 3:
             self.cam.stop()
             return
@@ -87,6 +86,7 @@ class Server:
         self.cam.move_continuous(vector3(pan, tilt, 0))
 
     def handle_home(self, arg):
+        logger.debug(f'Handling goto home')
         self.cam.go_home()
 
     def handle_zoom(self, arg):
@@ -100,6 +100,7 @@ class Server:
         self.cam.move_continuous(vector3(0, 0, zoom))
 
     def handle_absolute_position(self, arg):
+        logger.debug(f'Handling absolute move (as goto preset) {arg}')
         self.cam.goto_preset((arg[-2] << 8) | arg[-1])
 
     def command_processing(self, command):
@@ -110,8 +111,8 @@ class Server:
     def run(self):
         while True:
             try:
-                data, self.last_addr = self.recv()
+                data, self.last_addr = self.recieve()
                 self.command_processing(data)
             except KeyboardInterrupt:
-                logging.debug('Terminating loop')
+                logger.debug('Terminating loop')
                 return
