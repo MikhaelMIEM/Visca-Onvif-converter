@@ -14,20 +14,21 @@ class Server:
 			b'\x81\x01\x06\x01': self.handle_pan_tilt_drive,
 			b'\x81\x09': self.handle_inquiry,
 			b'\x81\x01\x06\x04': self.handle_home,
-			b'\x81\x01\x04\x07': self.handle_zoom
+			b'\x81\x01\x04\x07': self.handle_zoom,
+			b'\x81\x01\x06\x02': self.handle_absolute_position
 		}
 
 		# TODO: IPv6
 		self.SERVER_IP = '0.0.0.0'
 		self.SERVER_PORT = visca_port
-		logging.debug('Binding server to {}:{}'.format(self.SERVER_IP, self.SERVER_PORT))
 		self.SERVER_SOCKET = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 		self.SERVER_SOCKET.bind((self.SERVER_IP, self.SERVER_PORT))
 
 		self.cam = OCC(addr, port, login, password,
 					   path.join(path.dirname(__file__), 'wsdl'))
-
+			
 		self.last_addr = None
+		self.preset_counter = 0
 
 	def recv(self, bufsize=16):
 		data, addr = self.SERVER_SOCKET.recvfrom(bufsize)
@@ -36,18 +37,28 @@ class Server:
 		return data, addr
 
 	def send(self, sock, data, addr):
-		sock.sendto(ba.unhexlify(data.replace(' ', '')), addr)
-		print('sent "{}" to {}'.format(data, addr))
+		sock.sendto(data, addr)
+		text = ba.b2a_hex(data).decode().upper()
+		print('send "{}" to {}'.format(' '.join([text[i:i+2] for i in range(0, len(text), 2)]), addr))
 
 	def handle_inquiry(self, command):
 		if command==b'\x06\x12':
-			response='90 50 00 00 00 01 00 00 00 01 FF' #pan tilt pos
+			response=b''.join([b'\x90\x50\x00\x00\x00\x00\x00\x00',
+							   bytes([self.preset_counter//16, self.preset_counter%16]),            #probaply does not work
+							   b'\xFF']) #pan tilt position
+			if self.preset_counter:
+				self.cam.set_preset(self.preset_counter)
+				print('Preset seted')                                        #remove zis
+			if self.preset_counter>self.cam.node['MaximumNumberOfPresets']:
+				self.preset_counter=1
+			else:
+				self.preset_counter+=1
 		elif command==b'\x04\x47':
-			response='90 50 01 01 01 01 FF' #zoom pos
+			response=b'\x90\x50\x01\x01\x01\x01\xFF' #zoom position
 		elif command==b'\x04\x48':
-			response='90 50 01 01 01 01 FF' #focus pos
+			response=b'\x90\x50\x01\x01\x01\x01\xFF' #focus position
 		else:
-			response='90 61 41 FF' #error
+			response=b'\x90\x61\x41\xFF' #error
 		
 		self.send(self.SERVER_SOCKET, response, self.last_addr)
 
@@ -80,6 +91,9 @@ class Server:
 		if arg[0]//16==3: zoom=-zoom
 		
 		self.cam.move_continuous(vector3(0, 0, zoom))
+		
+	def handle_absolute_position(self, arg):                                        #probaly doesn't work
+		self.cam.goto_preset((arg[-2]<<8)|arg[-1])
 	
 	def command_processing(self, command):
 		for p in self.PREFIX:
@@ -90,7 +104,6 @@ class Server:
 		while True:
 			try:
 				data, self.last_addr = self.recv()
-				logging.debug('Received {}\n\tfrom {}'.format(data, self.last_addr))
 				self.command_processing(data)
 			except KeyboardInterrupt:
 				logging.debug('Terminating loop')

@@ -15,6 +15,7 @@ import logging
 class ONVIFCameraControl:
     def __init__(self, addr, port, login, pwd, wsdl_path):
         logging.info('Initializing camera {}'.format(addr))
+        
         self.cam = ONVIFCamera(addr, port, login, pwd, wsdl_path)
         self.media = self.cam.create_media_service()
         self.ptz = self.cam.create_ptz_service()
@@ -47,6 +48,26 @@ class ONVIFCameraControl:
         request = self.ptz.create_type('GetNode')
         request.NodeToken = node_token
         return self.ptz.GetNode(request)
+		
+    def set_preset(self, preset_token=None, preset_name=None):
+        request = self.ptz.create_type('SetPreset')
+        request.ProfileToken = self.profile.token
+        request.PresetToken = preset_token
+        request.PresetName = preset_name
+        return self.ptz.SetPreset(request)
+    
+    def goto_preset(self, preset_token, ptzs=vector3(1.0, 1.0, 1.0)):
+        request = self.ptz.create_type('GotoPreset')
+        request.ProfileToken = self.profile.token
+        request.PresetToken = preset_token
+        request.Speed = self.status.Position
+        vel = request.Speed
+        vel.PanTilt.x, vel.PanTilt.y = ptzs.x, ptzs.y
+        vel.Zoom.x = ptzs.z
+        return self.ptz.GotoPreset(request)
+        
+    def get_presets(self):
+        return self.ptz.GetPresets(self.profile.token)
 
     def move_continuous(self, ptz, timeout=None):
         print('Continuous move',ptz, '' if timeout is None else 'for '+str(timeout))
