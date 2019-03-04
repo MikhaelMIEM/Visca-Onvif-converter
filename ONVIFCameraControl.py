@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 import zeep
 from onvif import ONVIFCamera, ONVIFService
 
@@ -13,9 +17,6 @@ from vector3 import vector3
 import common
 
 from datetime import timedelta
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class ONVIFCameraControl:

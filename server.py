@@ -1,3 +1,7 @@
+import logging
+
+logger = logging.getLogger(__name__)
+
 from ONVIFCameraControl import ONVIFCameraControl as OCC
 from vector3 import vector3
 import common
@@ -6,9 +10,6 @@ import socket
 import binascii as ba
 
 from os import path
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class Server:
@@ -110,9 +111,5 @@ class Server:
 
     def run(self):
         while True:
-            try:
-                data, self.last_addr = self.recieve()
-                self.command_processing(data)
-            except KeyboardInterrupt:
-                logger.debug('Terminating loop')
-                return
+            data, self.last_addr = self.recieve()
+            self.command_processing(data)

@@ -1,6 +1,8 @@
 import logging
+import logging.config
 
-logger = logging.getLogger(__name__)
+logging.config.fileConfig('logging.conf', disable_existing_loggers=True)
+logger = logging.getLogger('main')
 
 from server import Server
 import json
@@ -8,10 +10,6 @@ import json
 from time import sleep
 import multiprocessing as mproc
 
-# logging.basicConfig(
-#     level=logging.DEBUG,
-#     format='(%(threadName)-10s) %(message)s',
-# )
 
 if __name__ == '__main__':
     logger.debug(f'Reading configuration file')
@@ -21,22 +19,23 @@ if __name__ == '__main__':
     logger.debug(f'Starting {len(config["CAMERAS"])} jobs')
     procs = []
 
-    for c in config['CAMERAS']:
-        try:
-            p = mproc.Process(target=Server(('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD']).run)
-            p.start()
-        except Exception as e:
-            logger.warning(f'Unable to start job: {e}')
-        else:
-            procs.append(p)
+    try:
+        for c in config['CAMERAS']:
+            try:
+                p = mproc.Process(
+                    target=Server(('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD']).run)
+                p.start()
+            except Exception as e:
+                logger.warning(f'Unable to start job: {e}')
+            else:
+                procs.append(p)
 
-    while True:
-        try:
+        while True:
             sleep(1)
-        except KeyboardInterrupt as e:
-            logger.warning(f'Stopping main process: {e}')
-            for p in procs:
-                if p.is_alive():
-                    logger.info(f'Terminating PID {p.pid} ({p.name})')
-                    p.terminate()
-            break
+
+    except (KeyboardInterrupt, SystemExit):
+        logger.warning(f'Stopping main process')
+        for p in procs:
+            if p.is_alive():
+                logger.info(f'Terminating PID {p.pid} ({p.name})')
+                p.terminate()
