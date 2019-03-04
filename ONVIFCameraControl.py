@@ -18,10 +18,13 @@ logger = logging.getLogger(__name__)
 
 
 class ONVIFCameraControl:
-    def __init__(self, addr, port, login, pwd, wsdl_path):
+    def __init__(self, addr, login, pwd, wsdl_path):
+        if not isinstance(addr, tuple) or not isinstance(addr[0], str) or not isinstance(addr[1], int):
+            raise TypeError(f'addr must be of type tuple(str, int)')
+
         logger.info(f'Initializing camera {addr}')
 
-        self.cam = ONVIFCamera(addr, port, login, pwd, wsdl_path)
+        self.cam = ONVIFCamera(addr[0], addr[1], login, pwd, wsdl_path)
         self.media = self.cam.create_media_service()
         self.ptz = self.cam.create_ptz_service()
         self.profile = self.media.GetProfiles()[0]
