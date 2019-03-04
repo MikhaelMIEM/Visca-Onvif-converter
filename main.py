@@ -26,7 +26,7 @@ if __name__ == '__main__':
                     target=Server(('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD']).run)
                 p.start()
             except Exception as e:
-                logger.warning(f'Unable to start job: {e}')
+                logger.error(f'Unable to start job: {e}')
             else:
                 procs.append(p)
 
