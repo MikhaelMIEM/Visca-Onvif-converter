@@ -124,5 +124,5 @@ class ONVIFCameraControl:
         self.ptz.GotoHomePosition(self.request['GotoHomePosition'])
 
     def stop(self):
-        logger.info(f'Stopping')
+        logger.info(f'Stopping movement')
         self.ptz.Stop({'ProfileToken': self.request['ContinuousMove'].ProfileToken})
