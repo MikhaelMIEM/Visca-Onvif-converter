@@ -15,10 +15,9 @@ import asyncio
 
 cam = OCC('192.168.15.52', 2000, 'admin', 'Supervisor',
           path.join(path.dirname(__file__), 'wsdl'))
-		  
+
 p = cam.get_presets();
 print(p[0])
 
-
-#cam.move_continuous(vector3(0, 0, -0.1), timedelta(seconds=4))
-#cam.go_home()
+# cam.move_continuous(vector3(0, 0, -0.1), timedelta(seconds=4))
+# cam.go_home()

@@ -9,9 +9,10 @@ def zeep_pythonvalue(self, xmlvalue):
 
 zeep.xsd.simple.AnySimpleType.pythonvalue = zeep_pythonvalue
 
-from datetime import timedelta
 from vector3 import vector3
+import common
 
+from datetime import timedelta
 import logging
 
 logger = logging.getLogger(__name__)
@@ -19,9 +20,7 @@ logger = logging.getLogger(__name__)
 
 class ONVIFCameraControl:
     def __init__(self, addr, login, pwd, wsdl_path):
-        if not isinstance(addr, tuple) or not isinstance(addr[0], str) or not isinstance(addr[1], int):
-            raise TypeError(f'addr must be of type tuple(str, int)')
-
+        common.check_addr(addr)
         logger.info(f'Initializing camera {addr}')
 
         self.cam = ONVIFCamera(addr[0], addr[1], login, pwd, wsdl_path)

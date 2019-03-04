@@ -1,16 +1,13 @@
-from ONVIFCameraControl import ONVIFCameraControl as OCC
-from vector3 import vector3
-from datetime import timedelta
-from os import path
 from server import Server
 import json
 import threading
+
 import logging
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format='(%(threadName)-20s) %(message)s',
-)
+# logging.basicConfig(
+#     level=logging.DEBUG,
+#     format='(%(threadName)-10s) %(message)s',
+# )
 
 with open('cameras.conf', 'r') as f:
     config = json.load(f)

@@ -28,9 +28,9 @@ class vector3:
     def normalize(self, inplace=False):
         if inplace:
             for v in [self.x, self.y, self.z]:
-                v = v/self.get_length()
+                v = v / self.get_length()
         else:
-            return vector3(self.x,self.y,self.z)/self.get_length()
+            return vector3(self.x, self.y, self.z) / self.get_length()
 
     @staticmethod
     def dot_product(v1, v2):
