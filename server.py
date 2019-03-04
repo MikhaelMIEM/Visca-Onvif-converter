@@ -110,6 +110,9 @@ class Server:
                 self.PREFIX[p](command[len(p):-1])
 
     def run(self):
-        while True:
-            data, self.last_addr = self.recieve()
-            self.command_processing(data)
+        try:
+            while True:
+                data, self.last_addr = self.recieve()
+                self.command_processing(data)
+        except KeyboardInterrupt:
+            logger.warning(f'Interrupted')

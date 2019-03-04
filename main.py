@@ -34,7 +34,7 @@ if __name__ == '__main__':
             sleep(1)
 
     except (KeyboardInterrupt, SystemExit):
-        logger.warning(f'Stopping main process')
+        logger.info(f'Stopping main process')
         for p in procs:
             if p.is_alive():
                 logger.info(f'Terminating PID {p.pid} ({p.name})')
