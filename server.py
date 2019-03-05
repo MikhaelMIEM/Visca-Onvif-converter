@@ -114,5 +114,5 @@ class Server:
             while True:
                 data, self.last_addr = self.recieve()
                 self.command_processing(data)
-        except KeyboardInterrupt:
-            logger.warning(f'Interrupted')
+        except (KeyboardInterrupt, SystemExit):
+            logger.info(f'Processing loop interrupted')

@@ -11,6 +11,11 @@ from time import sleep
 import multiprocessing as mproc
 
 
+def server_target(*args, **kwargs):
+    server = Server(*args, **kwargs)
+    server.run()
+
+
 if __name__ == '__main__':
     logger.debug(f'Reading configuration file')
     with open('cameras.conf', 'r') as f:
@@ -23,7 +28,7 @@ if __name__ == '__main__':
         for c in config['CAMERAS']:
             try:
                 p = mproc.Process(
-                    target=Server(('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD']).run)
+                    target=server_target, args=(('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD']))
                 p.start()
             except Exception as e:
                 logger.error(f'Unable to start job: {e}')
