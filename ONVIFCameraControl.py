@@ -77,7 +77,7 @@ class ONVIFCameraControl:
         request.Speed = self.status.Position
         vel = request.Speed
         vel.PanTilt.x, vel.PanTilt.y = ptzs.x, ptzs.y
-        vel.Zoom.x = ptzs.z
+        vel.Zoom = ptzs.z
         return self.ptz.GotoPreset(request)
 
     def get_presets(self):
