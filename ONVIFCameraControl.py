@@ -5,6 +5,8 @@ logger = logging.getLogger(__name__)
 import zeep
 from onvif import ONVIFCamera, ONVIFService
 
+from copy import deepcopy
+
 
 # monkey patch
 def zeep_pythonvalue(self, xmlvalue):
@@ -41,6 +43,8 @@ class ONVIFCameraControl:
         self.request['ContinuousMove'].Velocity = self.status.Position
         for _, r in self.request.items():
             r.ProfileToken = self.profile.token
+			
+        self.request_move_copy = deepcopy(self.request['ContinuousMove'])
 
         logging.info(f'Initialized camera at {addr} successfully')
 
@@ -86,10 +90,13 @@ class ONVIFCameraControl:
 
     def move_continuous(self, ptz, timeout=None):
         logger.info(f'Continuous move {ptz} {"" if timeout is None else " for " + str(timeout)}')
-        req = self.request['ContinuousMove']
+
+        req = self.request_move_copy
         vel = req.Velocity
-        vel.PanTilt.x, vel.PanTilt.y, vel.Zoom.x = ptz.x, ptz.y, ptz.z
-        # force default space
+        print(type(vel.PanTilt), type(vel.Zoom), type(ptz))
+        vel.PanTilt.x, vel.PanTilt.y = ptz.x, ptz.y
+        vel.Zoom.x = ptz.z
+	    # force default space
         vel.PanTilt.space, vel.Zoom.space = None, None
         if timeout is not None:
             if type(timeout) is timedelta:

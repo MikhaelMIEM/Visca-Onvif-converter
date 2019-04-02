@@ -33,7 +33,7 @@ if __name__ == '__main__':
         for c in config['CAMERAS']:
             try:
                 p = mproc.Process(
-                    target=server_target, args=(('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD'], c['CLIENT_NUMBER']))
+                    target=server_target, args=(('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD'], c['PRESET_RANGE']))
                 p.start()
             except Exception as e:
                 logger.error(f'Unable to start job: {e}')

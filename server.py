@@ -14,7 +14,7 @@ from os import path
 
 class Server:
 
-    def __init__(self, server_addr, cam_addr, login, password, client_num=1):
+    def __init__(self, server_addr, cam_addr, login, password, preset_range={'min':1, 'max':20}):
         common.check_addr(server_addr)
         common.check_addr(cam_addr)
         logger.info(f'Initializing service {server_addr} -> {cam_addr}')
@@ -27,8 +27,8 @@ class Server:
             b'\x81\x01\x06\x02': self.handle_absolute_position
         }
         
-        self.clients = {}
-        self.client_num = client_num
+        self.preset_range = preset_range
+        self.current_preset = preset_range['min']-1
 		
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_socket.bind(server_addr)
@@ -39,20 +39,13 @@ class Server:
 
         self.last_addr = None
 		
-    def client_inquiry_processing(self):
-        if self.last_addr not in self.clients:
-            if len(self.clients) <= self.client_num:
-                self.clients[self.last_addr]= self.cam.node['MaximumNumberOfPresets']//self.client_num*len(list(self.clients))+1
-            else:
-                return b'\x90\x61\x41\xFF'
-        else:
-            if self.clients[self.last_addr]+1 == self.cam.node['MaximumNumberOfPresets']//self.client_num*(list(self.clients).index(self.last_addr)+1):
-                self.clients[self.last_addr] = self.cam.node['MaximumNumberOfPresets']//self.client_num*list(self.clients).index(self.last_addr)+1
-            else:
-                self.clients[self.last_addr] += 1
-        self.cam.set_preset(self.clients[self.last_addr])
+    def handle_pan_tilt_pos(self):
+        self.current_preset+=1
+        if self.current_preset>self.preset_range['max']:
+            self.current_preset = self.preset_range['min']
+        self.cam.set_preset(self.current_preset)
         return b''.join([b'\x90\x50\x00\x00\x00\x00\x00\x00',
-                        bytes([self.clients[self.last_addr] // 16, self.clients[self.last_addr] % 16]),
+                        bytes([self.current_preset // 16, self.current_preset % 16]),
                         b'\xFF'])
             
 
@@ -68,7 +61,7 @@ class Server:
     def handle_inquiry(self, command):
         logger.debug(f'Handling inquiry {command.hex()}')
         if command == b'\x06\x12':
-            response = self.client_inquiry_processing()
+            response = self.handle_pan_tilt_pos()
         elif command == b'\x04\x47':
             response = b'\x90\x50\x01\x01\x01\x01\xFF'  # zoom position
         elif command == b'\x04\x48':
@@ -103,10 +96,6 @@ class Server:
         self.cam.go_home()
 
     def handle_zoom(self, arg):
-        if arg == 0:
-            self.cam.stop()
-            return
-
         zoom = arg[0] % 16 / 7
         if arg[0] // 16 == 3: zoom = -zoom
 
