@@ -3106,3 +3106,295 @@ INFO:MainProcess:MainThread:main: Stopping main process
 INFO:MainProcess:MainThread:main: Terminating PID 7552 (Process-1)
 INFO:MainProcess:MainThread:main: Terminating PID 2644 (Process-2)
 INFO:MainProcess:MainThread:main: Terminating PID 4688 (Process-3)
+INFO:Process-2:MainThread:server: Initializing service ('localhost', 50543) -> ('192.168.15.43', 80)
+INFO:Process-2:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.43', 80)
+INFO:Process-1:MainThread:server: Initializing service ('localhost', 50542) -> ('192.168.15.42', 80)
+INFO:Process-3:MainThread:server: Initializing service ('localhost', 50552) -> ('192.168.15.52', 2000)
+INFO:Process-1:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.42', 80)
+INFO:Process-3:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.52', 2000)
+INFO:Process-1:MainThread:server: Initializing service ('localhost', 50542) -> ('192.168.15.42', 80)
+INFO:Process-1:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.42', 80)
+INFO:Process-2:MainThread:server: Initializing service ('localhost', 50543) -> ('192.168.15.43', 80)
+INFO:Process-2:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.43', 80)
+INFO:Process-1:MainThread:ONVIFCameraControl: Stopping movement
+INFO:Process-3:MainThread:server: Initializing service ('localhost', 50552) -> ('192.168.15.52', 2000)
+INFO:Process-3:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.52', 2000)
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting node PTZNODETOKEN
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting node node_01
+INFO:Process-3:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting node onvif_ptz_0
+DEBUG:Process-2:MainThread:server: Received 81090612ff from ('127.0.0.1', 53900)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0612
+INFO:Process-2:MainThread:ONVIFCameraControl: Setting preset 1 (None)
+DEBUG:Process-2:MainThread:server: Sending 90500000000000000001ff
+DEBUG:Process-2:MainThread:server: Received 81090447ff from ('127.0.0.1', 53900)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0447
+DEBUG:Process-2:MainThread:server: Sending 905001010101ff
+DEBUG:Process-2:MainThread:server: Received 810106010c0a0203ff from ('127.0.0.1', 53900)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 0c0a0203
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0.5, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 810106010c0a0303ff from ('127.0.0.1', 53900)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 0c0a0303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 810106010c0a0203ff from ('127.0.0.1', 53900)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 0c0a0203
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0.5, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 810106010c0a0303ff from ('127.0.0.1', 53900)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 0c0a0303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 81090612ff from ('127.0.0.1', 53900)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0612
+INFO:Process-2:MainThread:ONVIFCameraControl: Setting preset 2 (None)
+DEBUG:Process-2:MainThread:server: Sending 90500000000000000002ff
+DEBUG:Process-2:MainThread:server: Received 81090447ff from ('127.0.0.1', 53900)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0447
+DEBUG:Process-2:MainThread:server: Sending 905001010101ff
+DEBUG:Process-2:MainThread:server: Received 81090612ff from ('127.0.0.1', 53901)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0612
+INFO:Process-2:MainThread:ONVIFCameraControl: Setting preset 3 (None)
+DEBUG:Process-2:MainThread:server: Sending 90500000000000000003ff
+DEBUG:Process-2:MainThread:server: Received 81090612ff from ('127.0.0.1', 53901)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0612
+INFO:Process-2:MainThread:ONVIFCameraControl: Setting preset 1 (None)
+DEBUG:Process-2:MainThread:server: Sending 90500000000000000001ff
+DEBUG:Process-2:MainThread:server: Received 81090612ff from ('127.0.0.1', 53902)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0612
+INFO:Process-2:MainThread:ONVIFCameraControl: Setting preset 2 (None)
+DEBUG:Process-2:MainThread:server: Sending 90500000000000000002ff
+DEBUG:Process-2:MainThread:server: Received 81090447ff from ('127.0.0.1', 53902)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0447
+DEBUG:Process-2:MainThread:server: Sending 905001010101ff
+DEBUG:Process-2:MainThread:server: Received 810106010c0a0103ff from ('127.0.0.1', 53902)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 0c0a0103
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (-0.5, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 810106010c0a0303ff from ('127.0.0.1', 53902)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 0c0a0303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 810106010c0a0102ff from ('127.0.0.1', 53902)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 0c0a0102
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (-0.5, -0.6, 0) 
+DEBUG:Process-2:MainThread:server: Received 810106010c0a0303ff from ('127.0.0.1', 53902)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 0c0a0303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 81090612ff from ('127.0.0.1', 53902)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0612
+INFO:Process-2:MainThread:ONVIFCameraControl: Setting preset 3 (None)
+DEBUG:Process-2:MainThread:server: Sending 90500000000000000003ff
+DEBUG:Process-2:MainThread:server: Received 81090447ff from ('127.0.0.1', 53902)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0447
+DEBUG:Process-2:MainThread:server: Sending 905001010101ff
+INFO:Process-3:MainThread:server: Initializing service ('localhost', 50552) -> ('192.168.15.52', 2000)
+INFO:Process-1:MainThread:server: Initializing service ('localhost', 50542) -> ('192.168.15.42', 80)
+INFO:Process-1:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.42', 80)
+INFO:Process-2:MainThread:server: Initializing service ('localhost', 50543) -> ('192.168.15.43', 80)
+INFO:Process-3:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.52', 2000)
+INFO:Process-2:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.43', 80)
+INFO:Process-3:MainThread:ONVIFCameraControl: Stopping movement
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting configurations
+INFO:Process-1:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting node node_01
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting node PTZNODETOKEN
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting node onvif_ptz_0
+DEBUG:Process-2:MainThread:server: Received 81090612ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0612
+INFO:Process-2:MainThread:ONVIFCameraControl: Setting preset 1 (None)
+DEBUG:Process-2:MainThread:server: Sending 90500000000000000001ff
+DEBUG:Process-2:MainThread:server: Received 81090447ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling inquiry 0447
+DEBUG:Process-2:MainThread:server: Sending 905001010101ff
+DEBUG:Process-2:MainThread:server: Received 8101060118140203ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140203
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (1.0, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140203ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140203
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (1.0, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.2, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+INFO:Process-3:MainThread:server: Initializing service ('localhost', 50552) -> ('192.168.15.52', 2000)
+INFO:Process-2:MainThread:server: Initializing service ('localhost', 50543) -> ('192.168.15.43', 80)
+INFO:Process-3:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.52', 2000)
+INFO:Process-2:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.43', 80)
+INFO:Process-1:MainThread:server: Initializing service ('localhost', 50542) -> ('192.168.15.42', 80)
+INFO:Process-1:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.42', 80)
+INFO:Process-3:MainThread:ONVIFCameraControl: Stopping movement
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting configurations
+INFO:Process-1:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting node node_01
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting node onvif_ptz_0
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting node PTZNODETOKEN
+DEBUG:Process-2:MainThread:server: Received 8101060118140203ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140203
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (1.0, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.2, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140301ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140301
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, 1.2, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060117130302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 17130302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.15, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060117130303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 17130303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060116120302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 16120302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.1, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060116120303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 16120303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060115110302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 15110302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.05, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060115110303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 15110303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060115110302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 15110302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.05, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060115110303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 15110303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 81010601120f0302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 120f0302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -0.9, 0) 
+DEBUG:Process-2:MainThread:server: Received 81010601120f0303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 120f0303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 81010601120f0203ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 120f0203
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0.75, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 81010601120f0303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 120f0303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 81010601120f0103ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 120f0103
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (-0.75, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 81010601120f0303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 120f0303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 81010601120f0301ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 120f0301
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, 0.9, 0) 
+DEBUG:Process-2:MainThread:server: Received 81010601120f0303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 120f0303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.2, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140203ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140203
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (1.0, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140202ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140202
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (1.0, -1.2, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+INFO:Process-2:MainThread:server: Initializing service ('localhost', 50543) -> ('192.168.15.43', 80)
+INFO:Process-1:MainThread:server: Initializing service ('localhost', 50542) -> ('192.168.15.42', 80)
+INFO:Process-2:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.43', 80)
+INFO:Process-1:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.42', 80)
+INFO:Process-3:MainThread:server: Initializing service ('localhost', 50552) -> ('192.168.15.52', 2000)
+INFO:Process-3:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.52', 2000)
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+INFO:Process-1:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting configurations
+INFO:Process-3:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting node node_01
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting node PTZNODETOKEN
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting node onvif_ptz_0
+DEBUG:Process-2:MainThread:server: Received 8101060118140202ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140202
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (1.0, -1.5, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140203ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140203
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (1.0, 0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.5, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+INFO:Process-1:MainThread:server: Initializing service ('localhost', 50542) -> ('192.168.15.42', 80)
+INFO:Process-1:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.42', 80)
+INFO:Process-2:MainThread:server: Initializing service ('localhost', 50543) -> ('192.168.15.43', 80)
+INFO:Process-2:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.43', 80)
+INFO:Process-3:MainThread:server: Initializing service ('localhost', 50552) -> ('192.168.15.52', 2000)
+INFO:Process-3:MainThread:ONVIFCameraControl: Initializing camera ('192.168.15.52', 2000)
+INFO:Process-3:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting configurations
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting configurations
+INFO:Process-1:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting configurations
+DEBUG:Process-3:MainThread:ONVIFCameraControl: Getting node onvif_ptz_0
+DEBUG:Process-2:MainThread:ONVIFCameraControl: Getting node node_01
+DEBUG:Process-1:MainThread:ONVIFCameraControl: Getting node PTZNODETOKEN
+DEBUG:Process-2:MainThread:server: Received 8101060118140202ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140202
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (1.0, -1.0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140101ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140101
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (-1.0, 1.0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140301ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140301
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, 1.0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
+DEBUG:Process-2:MainThread:server: Received 8101060118140302ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140302
+INFO:Process-2:MainThread:ONVIFCameraControl: Continuous move (0, -1.0, 0) 
+DEBUG:Process-2:MainThread:server: Received 8101060118140303ff from ('127.0.0.1', 54410)
+DEBUG:Process-2:MainThread:server: Handling pan tilt drive 18140303
+INFO:Process-2:MainThread:ONVIFCameraControl: Stopping movement
