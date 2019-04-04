@@ -81,7 +81,7 @@ class ONVIFCameraControl:
         request.Speed = self.status.Position
         vel = request.Speed
         vel.PanTilt.x, vel.PanTilt.y = ptzs.x, ptzs.y
-        vel.Zoom = ptzs.z
+        vel.Zoom.x = ptzs.z
         return self.ptz.GotoPreset(request)
 
     def get_presets(self):
@@ -93,7 +93,6 @@ class ONVIFCameraControl:
 
         req = self.request_move_copy
         vel = req.Velocity
-        print(type(vel.PanTilt), type(vel.Zoom), type(ptz))
         vel.PanTilt.x, vel.PanTilt.y = ptz.x, ptz.y
         vel.Zoom.x = ptz.z
 	    # force default space

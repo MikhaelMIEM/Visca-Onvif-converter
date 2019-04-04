@@ -7,7 +7,6 @@ from vector3 import vector3
 import common
 
 import socket
-import binascii as ba
 
 from os import path
 
@@ -29,7 +28,7 @@ class Server:
         
         self.preset_range = preset_range
         self.current_preset = preset_range['min']-1
-		
+        
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_socket.bind(server_addr)
 
@@ -38,7 +37,7 @@ class Server:
                        path.join(path.dirname(__file__), 'wsdl'))
 
         self.last_addr = None
-		
+        
     def handle_pan_tilt_pos(self):
         self.current_preset+=1
         if self.current_preset>self.preset_range['max']:
@@ -47,9 +46,8 @@ class Server:
         return b''.join([b'\x90\x50\x00\x00\x00\x00\x00\x00',
                         bytes([self.current_preset // 16, self.current_preset % 16]),
                         b'\xFF'])
-            
 
-    def recieve(self, bufsize=16):
+    def receive(self, bufsize=16):
         data, addr = self.server_socket.recvfrom(bufsize)
         logger.debug(f'Received {data.hex()} from {addr}')
         return data, addr
@@ -86,7 +84,7 @@ class Server:
         if arg[-1] == 3:
             tilt = 0
         else:
-            tilt = arg[0] / 20
+            tilt = arg[0] / 24
             if arg[-1] == 2: tilt = -tilt
 
         self.cam.move_continuous(vector3(pan, tilt, 0))
@@ -105,7 +103,7 @@ class Server:
         logger.debug(f'Handling absolute move (as goto preset) {arg.hex()}')
         self.cam.goto_preset((arg[-2] << 8) | arg[-1])
 
-    def command_processing(self, command):
+    def process_command(self, command):
         for p in self.PREFIX:
             if command[:len(p)] == p:
                 self.PREFIX[p](command[len(p):-1])
@@ -113,7 +111,7 @@ class Server:
     def run(self):
         try:
             while True:
-                data, self.last_addr = self.recieve()
-                self.command_processing(data)
+                data, self.last_addr = self.receive()
+                self.process_command(data)
         except (KeyboardInterrupt, SystemExit):
             logger.info(f'Processing loop interrupted')
