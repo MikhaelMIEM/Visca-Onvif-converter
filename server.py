@@ -13,7 +13,7 @@ from os import path
 
 class Server:
 
-    def __init__(self, server_addr, cam_addr, login, password, preset_range={'min':1, 'max':20}):
+    def __init__(self, server_addr, cam_addr, login, password, preset_range={'min': 1, 'max': 20}):
         common.check_addr(server_addr)
         common.check_addr(cam_addr)
         logger.info(f'Initializing service {server_addr} -> {cam_addr}')
@@ -25,27 +25,26 @@ class Server:
             b'\x81\x01\x04\x07': self.handle_zoom,
             b'\x81\x01\x06\x02': self.handle_absolute_position
         }
-        
+
         self.preset_range = preset_range
-        self.current_preset = preset_range['min']-1
-        
+        self.current_preset = preset_range['min'] - 1
+
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_socket.bind(server_addr)
-
 
         self.cam = OCC(cam_addr, login, password,
                        path.join(path.dirname(__file__), 'wsdl'))
 
         self.last_addr = None
-        
+
     def handle_pan_tilt_pos(self):
-        self.current_preset+=1
-        if self.current_preset>self.preset_range['max']:
+        self.current_preset += 1
+        if self.current_preset > self.preset_range['max']:
             self.current_preset = self.preset_range['min']
         self.cam.set_preset(self.current_preset)
         return b''.join([b'\x90\x50\x00\x00\x00\x00\x00\x00',
-                        bytes([self.current_preset // 16, self.current_preset % 16]),
-                        b'\xFF'])
+                         bytes([self.current_preset // 16, self.current_preset % 16]),
+                         b'\xFF'])
 
     def receive(self, bufsize=16):
         data, addr = self.server_socket.recvfrom(bufsize)
