@@ -22,9 +22,11 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
     def CreatePopupMenu(self):
         menu = wx.Menu()
+        self.__create_menu_item(menu, 'Show log', self.on_show_log)
+        menu.AppendSeparator()
         self.__create_menu_item(menu, 'Edit config', self.on_edit_conf)
         menu.AppendSeparator()
-        self.__create_menu_item(menu, 'Refresh', self.on_refresh)
+        self.__create_menu_item(menu, 'Reconnect', self.on_reconnect)
         self.__create_menu_item(menu, 'Exit', self.on_exit)
         return menu
 
@@ -32,13 +34,16 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         icon = wx.Icon(path)
         self.SetIcon(icon, TRAY_TOOLTIP)
 
+    def on_show_log(self, event):
+        os.startfile(path.join(path.dirname(__file__), 'main.log'))
+
     def on_left_down(self, event):
         pass
 
     def on_edit_conf(self, event):
         os.startfile(path.join(path.dirname(__file__), 'cameras.conf'))
 
-    def on_refresh(self, event):
+    def on_reconnect(self, event):
         stop()
         start()
 
@@ -80,8 +85,11 @@ def server_target(*args, **kwargs):
 
 def start():
     logger.debug(f'Reading configuration file')
-    with open('cameras.conf', 'r') as f:
-        config = json.load(f)
+    try:
+        with open('cameras.conf', 'r') as f:
+            config = json.load(f)
+    except Exception as e:
+        logger.error(f'Unable to load config: {e}')
 
     logger.debug(f'Starting {len(config["CAMERAS"])} jobs')
 
@@ -106,10 +114,6 @@ def stop():
 
 
 if __name__ == '__main__':
-    from threading import Thread
-
-    t = Thread(target=start, name='servers_thread')
-    t.start()
+    start()
     app = App(False)
     app.MainLoop()
-    t.join()
