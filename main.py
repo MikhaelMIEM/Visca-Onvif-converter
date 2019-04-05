@@ -90,23 +90,22 @@ def start():
             config = json.load(f)
     except Exception as e:
         logger.error(f'Unable to load config: {e}')
-
-    logger.debug(f'Starting {len(config["CAMERAS"])} jobs')
-
-    for c in config['CAMERAS']:
-        try:
-            p = mproc.Process(
-                target=server_target, args=(
-                ('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD'], c['PRESET_RANGE']))
-            p.start()
-        except Exception as e:
-            logger.error(f'Unable to start job: {e}')
-        else:
-            procs.append(p)
+    else:
+        logger.debug(f'Starting {len(config["CAMERAS"])} jobs')
+        for c in config['CAMERAS']:
+            try:
+                p = mproc.Process(
+                    target=server_target, args=(
+                    ('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD'], c['PRESET_RANGE']))
+                p.start()
+            except Exception as e:
+                logger.error(f'Unable to start job: {e}')
+            else:
+                procs.append(p)
 
 
 def stop():
-    logger.info(f'Stopping main process')
+    logger.info(f'Stopping processes')
     for p in procs:
         if p.is_alive():
             logger.info(f'Terminating PID {p.pid} ({p.name})')
