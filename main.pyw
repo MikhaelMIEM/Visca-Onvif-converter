@@ -3,7 +3,7 @@ import wx
 import os
 from os import path
 
-TRAY_TOOLTIP = 'Name'
+TRAY_TOOLTIP = 'visca-onvif converter'
 TRAY_ICON = path.join(path.dirname(__file__), '1.png')
 
 
@@ -63,16 +63,13 @@ class App(wx.App):
 
 from server import Server
 import json
-
 import multiprocessing as mproc
-
 import logging.config
 
 logging.config.fileConfig('logging.conf', disable_existing_loggers=True)
 logger = logging.getLogger('main')
 
 procs = []
-
 
 def server_target(*args, **kwargs):
     try:
@@ -84,6 +81,7 @@ def server_target(*args, **kwargs):
 
 
 def start():
+    global procs
     logger.debug(f'Reading configuration file')
     try:
         with open('cameras.conf', 'r') as f:
@@ -105,14 +103,19 @@ def start():
 
 
 def stop():
+    global procs
     logger.info(f'Stopping processes')
     for p in procs:
         if p.is_alive():
             logger.info(f'Terminating PID {p.pid} ({p.name})')
             p.terminate()
+        else:
+            logger.warning(f'PID {p.pid} already dead')
+    procs = []
 
 
 if __name__ == '__main__':
+    mproc.freeze_support()
     start()
     app = App(False)
     app.MainLoop()

@@ -33,7 +33,7 @@ class Server:
         self.server_socket.bind(server_addr)
 
         self.cam = OCC(cam_addr, login, password,
-                       path.join(path.dirname(__file__), 'wsdl'))
+                       'wsdl')
 
         self.last_addr = None
 
@@ -112,5 +112,6 @@ class Server:
             while True:
                 data, self.last_addr = self.receive()
                 self.process_command(data)
-        except (KeyboardInterrupt, SystemExit):
-            logger.info(f'Processing loop interrupted')
+        except Exception as e:
+            logger.info(f'Processing loop interrupted: {e}')
+            self.server_socket.close()
