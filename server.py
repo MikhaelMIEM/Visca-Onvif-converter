@@ -31,6 +31,7 @@ class Server:
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         self.server_socket.bind(server_addr)
+        self.server_socket.setblocking(False)
 
         self.cam = OCC(cam_addr, login, password,
                        'wsdl')
@@ -46,7 +47,9 @@ class Server:
                          bytes([self.current_preset // 16, self.current_preset % 16]),
                          b'\xFF'])
 
-    def receive(self, bufsize=16):
+    def receive(self, bufsize=16, timeout=1):
+        if timeout:
+            self.server_socket.settimeout(timeout)
         data, addr = self.server_socket.recvfrom(bufsize)
         logger.debug(f'Received {data.hex()} from {addr}')
         return data, addr
@@ -112,6 +115,15 @@ class Server:
             while True:
                 data, self.last_addr = self.receive()
                 self.process_command(data)
+        except socket.timeout:
+            pass
         except Exception as e:
             logger.info(f'Processing loop interrupted: {e}')
             self.server_socket.close()
+
+    def run_once(self):
+        try:
+            data, self.last_addr = self.receive()
+            self.process_command(data)
+        except socket.timeout:
+            raise TimeoutError

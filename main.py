@@ -63,25 +63,46 @@ class App(wx.App):
 
 from server import Server
 import json
-import multiprocessing as mproc
+import threading
 import logging.config
 
 logging.config.fileConfig('logging.conf', disable_existing_loggers=True)
 logger = logging.getLogger('main')
 
-procs = []
 
-def server_target(*args, **kwargs):
-    try:
-        server = Server(*args, **kwargs)
-    except Exception as e:
-        logger.error(f'Unable to initialize server: {e}')
-    else:
-        server.run()
+jobs = []
+threads = []
+
+
+class ServerJob:
+    def __init__(self):
+        self.running = False
+
+    def run(self, *args, **kwargs):
+        self.running = True
+        try:
+            server = Server(*args, **kwargs)
+        except Exception as e:
+            logger.error(f'Unable to initialize server: {e}')
+        else:
+            try:
+                while True:
+                    if not self.running:
+                        logger.info('Job interrupted')
+                        break
+                    try:
+                        server.run_once()
+                    except TimeoutError:
+                        pass
+            except Exception as e:
+                logger.error(f'Stopping job: {e}')
+
+    def stop(self):
+        self.running = False
 
 
 def start():
-    global procs
+    global threads
     logger.debug(f'Reading configuration file')
     try:
         with open('cameras.conf', 'r') as f:
@@ -91,31 +112,40 @@ def start():
     else:
         logger.debug(f'Starting {len(config["CAMERAS"])} jobs')
         for c in config['CAMERAS']:
+            job = ServerJob()
             try:
-                p = mproc.Process(
-                    target=server_target, args=(
-                    ('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD'], c['PRESET_RANGE']))
-                p.start()
+                jobs.append(job)
+                t = threading.Thread(
+                    target=job.run, args=(
+                        ('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD'], c['PRESET_RANGE']))
+                t.start()
             except Exception as e:
                 logger.error(f'Unable to start job: {e}')
             else:
-                procs.append(p)
+                threads.append(t)
 
 
-def stop():
-    global procs
-    logger.info(f'Stopping processes')
-    for p in procs:
-        if p.is_alive():
-            logger.info(f'Terminating PID {p.pid} ({p.name})')
-            p.terminate()
-        else:
-            logger.warning(f'PID {p.pid} already dead')
-    procs = []
+def stop(timeout=10):
+    global threads
+    global jobs
+    logger.info(f'Stopping jobs')
+    if threads:
+        for t, j in zip(threads, jobs):
+            if t.is_alive():
+                logger.info(f'Stopping {t.name}')
+                j.stop()
+                t.join(timeout=timeout)
+                if t.is_alive():
+                    logger.warning(f'Cannot stop {t.name}: Timeout')
+            else:
+                logger.info(f'Job {t.name} already stopped')
+    else:
+        logger.info('No jobs to stop')
+    jobs = []
+    threads = []
 
 
 if __name__ == '__main__':
-    mproc.freeze_support()
     start()
     app = App(False)
     app.MainLoop()
