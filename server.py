@@ -30,6 +30,7 @@ class Server:
         self.current_preset = preset_range['min'] - 1
 
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         self.server_socket.bind(server_addr)
         self.server_socket.setblocking(False)
 

@@ -71,38 +71,42 @@ logger = logging.getLogger('main')
 
 
 jobs = []
-threads = []
 
 
-class ServerJob:
-    def __init__(self):
+class ServerJob(threading.Thread):
+    def __init__(self, *args, **kwargs):
         self.running = False
+        self.args = args
+        self.kwargs = kwargs
+        threading.Thread.__init__(self)
 
-    def run(self, *args, **kwargs):
+    def run(self):
         self.running = True
         try:
-            server = Server(*args, **kwargs)
+            server = Server(*self.args, **self.kwargs)
         except Exception as e:
             logger.error(f'Unable to initialize server: {e}')
+            return
         else:
             try:
                 while True:
                     if not self.running:
                         logger.info('Job interrupted')
-                        break
+                        return
                     try:
                         server.run_once()
                     except TimeoutError:
                         pass
             except Exception as e:
                 logger.error(f'Stopping job: {e}')
+                return
 
     def stop(self):
         self.running = False
 
 
 def start():
-    global threads
+    global jobs
     logger.debug(f'Reading configuration file')
     try:
         with open('cameras.conf', 'r') as f:
@@ -112,40 +116,39 @@ def start():
     else:
         logger.debug(f'Starting {len(config["CAMERAS"])} jobs')
         for c in config['CAMERAS']:
-            job = ServerJob()
             try:
-                jobs.append(job)
-                t = threading.Thread(
-                    target=job.run, args=(
-                        ('localhost', c['VISCA_PORT']), (c['IP'], c['PORT']), c['LOGIN'], c['PASSWORD'], c['PRESET_RANGE']))
-                t.start()
+                job = ServerJob(('localhost', c['VISCA_PORT']),
+                                  (c['IP'], c['PORT']),
+                                  c['LOGIN'],
+                                  c['PASSWORD'],
+                                  c['PRESET_RANGE'])
+                job.start()
             except Exception as e:
                 logger.error(f'Unable to start job: {e}')
             else:
-                threads.append(t)
+                jobs.append(job)
 
 
 def stop(timeout=10):
-    global threads
     global jobs
     logger.info(f'Stopping jobs')
-    if threads:
-        for t, j in zip(threads, jobs):
-            if t.is_alive():
-                logger.info(f'Stopping {t.name}')
+    if jobs:
+        for j in jobs:
+            if j.is_alive():
+                logger.info(f'Stopping {j.name}')
                 j.stop()
-                t.join(timeout=timeout)
-                if t.is_alive():
-                    logger.warning(f'Cannot stop {t.name}: Timeout')
+                j.join(timeout=timeout)
+                if j.is_alive():
+                    logger.warning(f'Cannot stop {j.name}: Timeout')
             else:
-                logger.info(f'Job {t.name} already stopped')
+                j.join()
+                logger.info(f'Job {j.name} already stopped')
     else:
         logger.info('No jobs to stop')
     jobs = []
-    threads = []
 
 
 if __name__ == '__main__':
     start()
-    app = App(False)
-    app.MainLoop()
+    # app = App(False)
+    # app.MainLoop()
