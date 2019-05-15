@@ -149,6 +149,5 @@ def stop(timeout=10):
 
 
 if __name__ == '__main__':
-    start()
-    # app = App(False)
-    # app.MainLoop()
+    app = App(False)
+    app.MainLoop()
