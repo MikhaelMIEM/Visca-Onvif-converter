@@ -31,7 +31,8 @@ Assembled files will be located in ```dist``` directory
 
 ### Configuration
 ```logging.conf``` can be adjusted according to https://docs.python.org/3/library/logging.config.html
-```cameras.conf``` contains ```CAMERAS``` list each of which contains several attributes for a particular ONFIV device.
+
+```cameras.conf``` contains ```CAMERAS``` list elements of which contain several attributes for a particular ONFIV device.
 
 Example configuration:
 ```json
